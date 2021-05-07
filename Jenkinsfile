@@ -41,7 +41,7 @@ sleep 4'''
       steps {
         sh '''echo "push whl to pypi repo"
 sleep 3
-echo "sh \'venv/bin/python3 -m twine upload --repository-url http://198.18.103.20/mypypi/johndoe/ -u dhirain -p redhat@123 --non-interactive dist/johndoe-0.3.2-py3-none-any.whl\'"'''
+echo "sh \'venv/bin/python3 -m twine upload --repository-url http://198.18.103.20/mypypi/johndoe/ -u [user] -p [Pass] --non-interactive dist/johndoe-0.3.2-py3-none-any.whl\'"'''
       }
     }
 
