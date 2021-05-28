@@ -7,29 +7,18 @@ pipeline {
       }
     }
 
-    stage('DAG build') {
+    stage('Prepare Airflow') {
       parallel {
-        stage('johndoe whl') {
+        stage('Scan docker image') {
           steps {
-            sh '''echo "johndoe whl build"
-echo "python3 -m venv venv"
-echo "sh \'venv/bin/pip3 install wheel setuptools twine pytest pytest-runner  --proxy=http://dc-proxy-rat.net.vodafone.com:8080\'"
-echo "sh \'venv/bin/python3 ./020-development/030-python/130-john_doe/setup.py bdist_wheel\'"
-sleep 5
-'''
-          }
-        }
-
-        stage('speedy whl') {
-          steps {
-            sh '''echo "build speedy system whl"
+            sh '''echo "Scan airflow image for vulnerability"
 sleep 3'''
           }
         }
 
-        stage('filedelta whl') {
+        stage('Create Test NS') {
           steps {
-            sh '''echo "build filedelta whl"
+            sh '''echo "Creating test namespace"
 sleep 4'''
           }
         }
@@ -37,31 +26,31 @@ sleep 4'''
       }
     }
 
-    stage('push to nexus') {
+    stage('K8S PVC') {
       steps {
-        sh '''echo "push whl to pypi repo"
-sleep 3
-echo "sh \'venv/bin/python3 -m twine upload --repository-url http://198.18.103.20/mypypi/johndoe/ -u [user] -p [Pass] --non-interactive dist/johndoe-0.3.2-py3-none-any.whl\'"'''
+        sh '''echo "Attach PVC to test namespace"
+sleep 5
+'''
       }
     }
 
-    stage('Build airflow image') {
+    stage('Deploy Airflow') {
       steps {
-        sh '''echo "build airflow image"
-sleep 3'''
+        sh '''echo "deploy airflow with K8S commands"
+sleep 6'''
       }
     }
 
-    stage('Approval') {
+    stage('Test Automation') {
       parallel {
-        stage('github commit / issue') {
+        stage('Execute test case') {
           steps {
             sh '''echo "github issue or comment for image build process"
 sleep 4'''
           }
         }
 
-        stage('Docker image scan') {
+        stage('github issue on test case') {
           steps {
             sh '''echo "scan docker image for security vulnerability"
 sleep 5'''
@@ -71,9 +60,15 @@ sleep 5'''
       }
     }
 
-    stage('Image to Nexus') {
+    stage('Manual testing') {
       steps {
-        sh '''echo "deploy airflow image to kubernetes"
+        input 'Manual testing'
+      }
+    }
+
+    stage('Destroy Test NS') {
+      steps {
+        sh '''echo "Destroy test namespace"
 sleep 5'''
       }
     }
