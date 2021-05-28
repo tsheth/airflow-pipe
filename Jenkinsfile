@@ -54,12 +54,6 @@ sleep 3'''
 
     stage('Approval') {
       parallel {
-        stage('Approval') {
-          steps {
-            input 'Proceed for deployment in kubernetes?'
-          }
-        }
-
         stage('github commit / issue') {
           steps {
             sh '''echo "github issue or comment for image build process"
@@ -77,7 +71,7 @@ sleep 5'''
       }
     }
 
-    stage('Deploy') {
+    stage('Image to Nexus') {
       steps {
         sh '''echo "deploy airflow image to kubernetes"
 sleep 5'''
