@@ -1,23 +1,40 @@
 pipeline {
   agent any
   stages {
-    stage('checkout') {
-      steps {
-        sh 'echo "checkout"'
+    stage('JohnDoe Whl') {
+      parallel {
+        stage('JohnDoe Whl') {
+          steps {
+            sh 'echo "johndoe whl"'
+          }
+        }
+
+        stage('Speedy whl') {
+          steps {
+            sh 'echo "speedy system whl"'
+          }
+        }
+
+        stage('FileDelta whl') {
+          steps {
+            sh 'echo "filedelta whl"'
+          }
+        }
+
       }
     }
 
-    stage('Verify K8S PVC') {
+    stage('Docker build and Push') {
       steps {
-        sh '''echo "Attach PVC to test namespace"
+        sh '''echo "Docker build and push to nexus"
 sleep 5
 '''
       }
     }
 
-    stage('Deploy Airflow') {
+    stage('Docker scanning') {
       steps {
-        sh '''echo "deploy airflow with K8S commands"
+        sh '''echo "docker image scanning"
 sleep 6'''
       }
     }
