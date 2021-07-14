@@ -39,9 +39,10 @@ sleep 6'''
       }
     }
 
-    stage('') {
+    stage('gitcheckout') {
       steps {
         git(url: 'https://github.com/tsheth/snyk-pipe', branch: 'main', credentialsId: 'git-creds', poll: true, changelog: true)
+        sh 'ls -la'
       }
     }
 
